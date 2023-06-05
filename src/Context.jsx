@@ -6,7 +6,7 @@ export const AppContext = createContext();
 
 export const AppProvider = ({children}) => {
     const [loading, setLoading] = useState(true)
-    const [searchTerm, setSearchTearm] = useState('a')
+    const [searchTerm, setSearchTerm] = useState('a')
     const [cockTails, setCockTails] = useState([]);
 
     const fetchDrinks = async () => {
@@ -14,9 +14,35 @@ export const AppProvider = ({children}) => {
       try {
         const response = await fetch(`${url}${searchTerm}`)
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
+        const {drinks} = data;
+        if(drinks){
+          const newCocktails = drinks.map((item) => {
+            const {
+              idDrink,
+              strDrink,
+              strDrinkThumb,
+              strAlcoholic,
+              strGlass,
+            } = item
+
+            return {
+              id: idDrink,
+              name: strDrink,
+              image: strDrinkThumb,
+              info: strAlcoholic,
+              glass: strGlass,
+            }
+          })
+          setCockTails(newCocktails)
+        }
+        else(
+          setCockTails([])
+        )
+        setLoading(false)
       } catch (err) {
         console.log(err)
+        setLoading(false)
       }
     }
 
@@ -30,7 +56,7 @@ export const AppProvider = ({children}) => {
     value={{
         loading,
         cockTails,
-        setSearchTearm,
+        setSearchTerm,
     }}>
       {children}
     </AppContext.Provider>

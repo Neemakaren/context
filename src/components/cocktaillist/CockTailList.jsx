@@ -2,10 +2,12 @@ import React, { useContext } from 'react'
 import Loading from '../loading/Loading'
 import CockTail from '../cocktail/CockTail'
 import { AppContext } from '../../Context'
+import './cockTailList.css';
 
 
 const CockTailList = () => {
   const {cockTails, loading} = useContext(AppContext);
+  // console.log(cockTails)
 
 
   if (loading) {
